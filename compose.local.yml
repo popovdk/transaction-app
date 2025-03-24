@@ -66,6 +66,19 @@ services:
       retries: 3
       start_period: 20s
 
+  queue:
+    image: ${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_NAME}/app:${CI_COMMIT_SHORT_SHA}
+    restart: unless-stopped
+    command: php /var/www/html/artisan queue:work
+    volumes: *project-volumes
+    networks:
+      - app-network
+    depends_on:
+      app:
+        condition: service_healthy
+      db:
+        condition: service_healthy
+
   migrate:
     image: ${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_NAME}/app:${CI_COMMIT_SHORT_SHA}
     restart: "no"

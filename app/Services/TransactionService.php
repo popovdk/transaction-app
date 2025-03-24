@@ -33,7 +33,6 @@ class TransactionService
                     'error' => $e->getMessage(),
                 ]);
                 $transaction->markAsFailed();
-                throw $e;
             }
 
             return $transaction;
