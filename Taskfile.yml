@@ -1,0 +1,33 @@
+version: '3'
+
+dotenv:
+  - .env
+
+env:
+  CI_REGISTRY_IMAGE: github.com/popovdk/transaction-app
+  CI_COMMIT_SHORT_SHA: latest
+  CI_COMMIT_REF_NAME: transaction-app
+  PORT: 9005
+
+tasks:
+  build:
+    cmds:
+      - docker buildx bake -f docker-bake.hcl
+
+  dev:
+    cmds:
+      - docker compose -f compose.local.yml up
+
+  down:
+    cmds:
+      - docker compose -f compose.local.yml down -v
+
+  exec-app:
+    cmds:
+      - docker compose -f compose.local.yml exec -it -u root app sh
+
+  vendor-copy:
+    cmds:
+      - docker cp domain-service-app:/var/www/html/vendor .
+      - docker cp domain-service-app:/var/www/html/composer.json .
+      - docker cp domain-service-app:/var/www/html/composer.lock .
