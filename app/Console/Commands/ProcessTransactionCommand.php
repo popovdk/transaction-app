@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use App\Domain\ValueObjects\TransactionType;
+use App\Types\TransactionType;
 use App\Jobs\ProcessTransactionJob;
 use App\Models\User;
 use Illuminate\Console\Command;

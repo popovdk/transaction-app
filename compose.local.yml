@@ -76,19 +76,6 @@ services:
       db:
         condition: service_healthy
 
-  migrate:
-    image: ${CI_REGISTRY_IMAGE}/${CI_COMMIT_REF_NAME}/app:${CI_COMMIT_SHORT_SHA}
-    restart: "no"
-    command: php /var/www/html/artisan migrate --force
-    volumes: *project-volumes
-    networks:
-      - app-network
-    depends_on:
-      app:
-        condition: service_healthy
-      db:
-        condition: service_healthy
-
   redis:
     image: redis:6-alpine
     restart: unless-stopped

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Domain\ValueObjects;
+namespace App\Types;
 
 class TransactionType
 {

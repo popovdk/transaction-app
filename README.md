@@ -80,7 +80,7 @@ task build
 3. Запуск проекта
 
 ```
-task up
+task dev
 ```
 
 4. Миграции
@@ -94,6 +94,8 @@ task app -- php artisan migrate
 ```
 task app -- php artisan key:generate
 ```
+
+Приложение будет доступно по адресу http://localhost:9005
 
 ## Структура проекта
 

@@ -3,8 +3,8 @@
 namespace App\Models;
 
 use App\Types\Money;
-use App\Domain\ValueObjects\TransactionStatus;
-use App\Domain\ValueObjects\TransactionType;
+use App\Types\TransactionStatus;
+use App\Types\TransactionType;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 

@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Domain\ValueObjects\TransactionStatus;
-use App\Domain\ValueObjects\TransactionType;
+use App\Types\TransactionStatus;
+use App\Types\TransactionType;
 use App\Models\Transaction;
 use App\Models\User;
 use App\Models\UserBalance;
