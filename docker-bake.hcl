@@ -18,10 +18,22 @@ variable "CI_DEFAULT_BAKE_TAG" {
     default = "${CI_COMMIT_SHORT_SHA}"
 }
 
-target "app-builder" {
-    dockerfile = "./docker/app-builder/Dockerfile"
+target "php-builder" {
+    dockerfile = "./docker/php-builder/Dockerfile"
     tags = [
-        "app-builder:latest"
+        "php-builder:latest"
+    ]
+    output = ["type=cacheonly"]
+    platforms = ["linux/amd64"]
+}
+
+target "node-builder" {
+    contexts = {
+        php_builder = "target:php-builder"
+    }
+    dockerfile = "./docker/node-builder/Dockerfile"
+    tags = [
+        "node-builder:latest"
     ]
     output = ["type=cacheonly"]
     platforms = ["linux/amd64"]
@@ -29,7 +41,8 @@ target "app-builder" {
 
 target "app" {
     contexts = {
-        app_builder = "target:app-builder"
+        php_builder = "target:php-builder"
+        node_builder = "target:node-builder"
     }
     dockerfile = "./docker/app/Dockerfile"
     tags = [
@@ -45,7 +58,8 @@ target "app" {
 
 target "nginx" {
     contexts = {
-        app_builder = "target:app-builder"
+        php_builder = "target:php-builder"
+        node_builder = "target:node-builder"
     }
     dockerfile = "./docker/nginx/Dockerfile"
     tags = [

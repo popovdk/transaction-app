@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Domain\ValueObjects\Money;
+use App\Types\Money;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 

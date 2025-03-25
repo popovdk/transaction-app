@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transaction;
-use App\Models\UserBalance;
+use App\Http\Resources\BalanceResource;
+use App\Http\Resources\TransactionResource;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -12,24 +13,17 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        /** @var User $user */
         $user = Auth::user();
         $balance = $user->balance;
         $recentTransactions = $user->transactions()
             ->latest()
             ->take(5)
-            ->get()
-            ->map(fn($transaction) => [
-                'id' => $transaction->id,
-                'amount' => floatval($transaction->amount),
-                'type' => $transaction->type,
-                'description' => $transaction->description,
-                'status' => $transaction->status,
-                'created_at' => $transaction->created_at,
-            ]);
+            ->get();
 
         return Inertia::render('Dashboard', [
             'balance' => $balance ? floatval($balance->balance) : 0,
-            'recentTransactions' => $recentTransactions,
+            'recentTransactions' => TransactionResource::collection($recentTransactions),
         ]);
     }
 
@@ -48,17 +42,10 @@ class DashboardController extends Controller
         $sort = $request->input('sort', 'desc');
         $query->orderBy('created_at', $sort);
 
-        $transactions = $query->paginate(10)->through(fn($transaction) => [
-            'id' => $transaction->id,
-            'amount' => floatval($transaction->amount),
-            'type' => $transaction->type,
-            'description' => $transaction->description,
-            'status' => $transaction->status,
-            'created_at' => $transaction->created_at,
-        ]);
+        $transactions = $query->paginate(10);
 
         return Inertia::render('Transactions', [
-            'transactions' => $transactions,
+            'transactions' => TransactionResource::collection($transactions),
             'search' => $request->input('search', ''),
             'sort' => $sort,
         ]);
@@ -66,32 +53,22 @@ class DashboardController extends Controller
 
     public function getBalance()
     {
+        /** @var User $user */
         $user = Auth::user();
         $balance = $user->balance;
 
-        return response()->json([
-            'balance' => $balance ? floatval($balance->balance) : 0,
-        ]);
+        return new BalanceResource($balance);
     }
 
     public function getRecentTransactions()
     {
+        /** @var User $user */
         $user = Auth::user();
         $transactions = $user->transactions()
             ->latest()
             ->take(5)
-            ->get()
-            ->map(fn($transaction) => [
-                'id' => $transaction->id,
-                'amount' => floatval($transaction->amount),
-                'type' => $transaction->type,
-                'description' => $transaction->description,
-                'status' => $transaction->status,
-                'created_at' => $transaction->created_at,
-            ]);
+            ->get();
 
-        return response()->json([
-            'transactions' => $transactions,
-        ]);
+        return TransactionResource::collection($transactions);
     }
 } 

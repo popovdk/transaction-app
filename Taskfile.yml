@@ -26,6 +26,12 @@ tasks:
     cmds:
       - docker compose -f compose.local.yml exec -it -u root app sh
 
+  app:
+    desc: "Выполнить команду в контейнере app"
+    cmds:
+      - docker compose -f compose.local.yml exec -it -u root app {{.CLI_ARGS}}
+
+
   vendor-copy:
     cmds:
       - docker cp domain-service-app:/var/www/html/vendor .

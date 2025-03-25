@@ -44,8 +44,6 @@ Taskfile.yml
 compose.build.yml
 compose.local.yml
 build.env
-package.json
-vite.config.js
 
 # telescope
 !public/vendor

@@ -2,11 +2,11 @@
 
 namespace App\Console\Commands;
 
-use App\Domain\ValueObjects\Money;
 use App\Domain\ValueObjects\TransactionType;
 use App\Jobs\ProcessTransactionJob;
 use App\Models\User;
 use Illuminate\Console\Command;
+use App\Types\Money;
 
 class ProcessTransactionCommand extends Command
 {

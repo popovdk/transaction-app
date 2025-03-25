@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Domain\ValueObjects\Money;
 use App\Domain\ValueObjects\TransactionStatus;
 use App\Domain\ValueObjects\TransactionType;
 use App\Models\Transaction;
@@ -10,6 +9,7 @@ use App\Models\User;
 use App\Models\UserBalance;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Types\Money;
 
 class TransactionService
 {

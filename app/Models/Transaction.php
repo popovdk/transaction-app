@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Domain\ValueObjects\Money;
+use App\Types\Money;
 use App\Domain\ValueObjects\TransactionStatus;
 use App\Domain\ValueObjects\TransactionType;
 use Illuminate\Database\Eloquent\Model;

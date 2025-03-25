@@ -18,7 +18,8 @@ COPY ./docker/nginx/config/ /etc/nginx/
 
 WORKDIR /var/www/html
 
-COPY --chown=nginx:nginx --from=app_builder /var/www/html/public ./public
+COPY --chown=nginx:nginx --from=php_builder /var/www/html/public ./public
+COPY --chown=nginx:nginx --from=node_builder /app/public/build ./public/build
 
 # https://docs.docker.com/reference/dockerfile/#healthcheck
 HEALTHCHECK --interval=5s --timeout=2s \

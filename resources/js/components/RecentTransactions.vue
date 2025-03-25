@@ -18,7 +18,7 @@ let intervalId: number | null = null;
 const fetchTransactions = async () => {
     try {
         const response = await axios.get('/api/recent-transactions');
-        transactions.value = response.data.transactions.map((transaction: any) => ({
+        transactions.value = response.data.data.map((transaction: any) => ({
             ...transaction,
             amount: Number(transaction.amount)
         }));
